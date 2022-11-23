@@ -56,5 +56,7 @@ const MyPage = ({ login }) => {
       Login
     </button>
   );
+
+export default asGuest(MyPage);
 }
 ```
