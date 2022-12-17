@@ -1,9 +1,7 @@
-import { SetStoreFn } from "glassx";
+import { SetStoreFn } from 'glassx';
 
-export function staticImplements<T>() {
-  return <U extends T>(constructor: U) => {
-    constructor;
-  };
+export interface Router extends Record<string, any> {
+  navigate: (screen: string) => any;
 }
 
 export type InternalOptions = {
@@ -13,15 +11,22 @@ export type InternalOptions = {
   loginPath: string;
   logoutPath: string;
   dashboardPath: string;
+  environment: 'react' | 'react-native';
+  /**
+   * Router
+   * ----
+   * This field allows you to add a custom router for routing between auth and guest screen
+   */
+  router?: Router;
 };
 
 export type AuthState = {
-	user: any;
-	setUser: SetStoreFn;
-	token: any;
-	setToken: SetStoreFn;
+  user: any;
+  setUser: SetStoreFn;
+  token: any;
+  setToken: SetStoreFn;
   refreshToken?: any;
-	setRefreshToken?: SetStoreFn;
+  setRefreshToken?: SetStoreFn;
   logout: (callback?: VoidFunction) => void;
 };
 

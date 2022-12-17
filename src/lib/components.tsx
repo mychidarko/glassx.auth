@@ -19,9 +19,33 @@ export function withAuth<Types>(WrappedComponent: React.FC<Types & AuthState>) {
       if (callback) callback();
     };
 
-    if (typeof window !== 'undefined') {
+    if (Auth.options('environment') === 'react') {
+      if (typeof window !== 'undefined') {
+        if (!Boolean(user)) {
+          window.location.replace(Auth.options('loginPath'));
+          return null;
+        }
+
+        return (
+          <WrappedComponent
+            {...{
+              user,
+              setUser,
+              token,
+              setToken,
+              refreshToken,
+              setRefreshToken,
+              logout,
+              ...props
+            }}
+          />
+        );
+      }
+    } else {
+      const router = Auth.options('router');
+
       if (!Boolean(user)) {
-        window.location.replace(Auth.options('loginPath'));
+        router?.navigate(Auth.options('loginPath'));
         return null;
       }
 
@@ -64,21 +88,40 @@ export function asGuest<Types> (WrappedComponent: React.FC<Types & GuestState>) 
       }
     }
 
-    if (typeof window !== 'undefined') {
+    if (Auth.options('environment') === 'react') {
+      if (typeof window !== 'undefined') {
+        if (Boolean(user)) {
+          window.location.replace(Auth.options('dashboardPath'));
+          return null;
+        }
+
+        return (
+          <WrappedComponent
+            {...{
+              user,
+              login,
+              ...props
+            }}
+          />
+        );
+      }
+    } else {
+      const router = Auth.options('router');
+
       if (Boolean(user)) {
-        window.location.replace(Auth.options('dashboardPath'));
+        router?.navigate(Auth.options('dashboardPath'));
         return null;
       }
 
       return (
-        <WrappedComponent
-          {...{
-            user,
-            login,
-            ...props
-          }}
-        />
-      );
+          <WrappedComponent
+            {...{
+              user,
+              login,
+              ...props
+            }}
+          />
+        );
     }
 
     return null;
