@@ -1,7 +1,7 @@
 {
   "name": "glassx.auth",
   "description": "Authentication service for GlassX",
-  "version": "1.1.0",
+  "version": "1.1.9",
   "main": "dist/index.js",
   "module": "dist/glassx.esm.js",
   "typings": "dist/index.d.ts",

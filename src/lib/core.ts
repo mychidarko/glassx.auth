@@ -1,3 +1,4 @@
+import GlassX from 'glassx';
 import { InternalOptions } from './../@types';
 
 /**
@@ -12,14 +13,17 @@ export default class Auth {
     logoutPath: '/logout',
     dashboardPath: '/dashboard',
     environment: 'react',
-    router: undefined,
+    router: null,
+    glassx: GlassX
   };
 
   public static config(options: Partial<InternalOptions>) {
     this._options = { ...this._options, ...options };
   }
 
-  public static options(key: keyof InternalOptions): any;
+  public static options(
+    key: keyof InternalOptions
+  ): InternalOptions[keyof InternalOptions];
 
   public static options(): InternalOptions;
 
