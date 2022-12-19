@@ -29,7 +29,13 @@ export function withAuth<Types>(WrappedComponent: React.FC<Types & AuthState>) {
         }
       } else {
         if (!Boolean(user)) {
-          Auth.options('router')?.navigate?.(Auth.options('loginPath'));
+          const router = props?.navigation ?? Auth.options('router');
+
+          if (router?.replace) {
+            router?.replace?.(Auth.options('loginPath'));
+          } else {
+            router?.navigate?.(Auth.options('loginPath'));
+          }
         }
       }
     }, [user]);
@@ -81,7 +87,13 @@ export function asGuest<Types>(WrappedComponent: React.FC<Types & GuestState>) {
         }
       } else {
         if (Boolean(user)) {
-          Auth.options('router')?.navigate?.(Auth.options('dashboardPath'));
+          const router = props?.navigation ?? Auth.options('router');
+
+          if (router?.replace) {
+            router?.replace?.(Auth.options('dashboardPath'));
+          } else {
+            router?.navigate?.(Auth.options('dashboardPath'));
+          }
         }
       }
     }, [user]);
