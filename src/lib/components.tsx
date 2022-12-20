@@ -17,7 +17,7 @@ export function withAuth<Types>(WrappedComponent: React.FC<Types & AuthState>) {
       setToken(null);
       setRefreshToken(null);
 
-      if (callback) callback();
+      if (typeof callback === 'function') callback();
     };
 
     React.useEffect(() => {
